@@ -1,0 +1,38 @@
+REG_CODE - accept
+    /: SLASH
+    ": IN_STRING
+    ': IN_CHARLIT
+    anything else: REG_CODE
+
+SLASH - accept - accept
+    *: IN_COMMENT
+    ": IN_STRING
+    ': IN_CHARLIT
+    /: SLASH
+    anything else: REG_CODE
+
+IN_COMMENT - reject
+    *: STAR
+    EOF: throw error
+    anything else: IN_COMMENT
+
+STAR - reject
+    *: STAR
+    /: REG_CODE
+    anything else: IN_COMMENT
+
+IN_STRING - accept
+    ": REG_CODE
+    \: ESCAPE_STRING
+    anything else: IN_STRING
+
+ESCAPE_STRING - accept
+    everything: IN_STRING
+
+IN_CHARLIT - accept
+    ': REG_CODE
+    \: ESCAPE_CHARLIT
+    anything else: IN_CHARLIT
+
+ESCAPE_CHARLIT - accept
+    evreything: IN_CHARLIT

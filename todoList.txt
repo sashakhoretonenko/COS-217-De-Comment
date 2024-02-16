@@ -1,0 +1,2 @@
+* create counter to count new lines
+* if ends in reject state, print to standard error
